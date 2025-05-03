@@ -26,24 +26,28 @@ public class HomeController {
         }
 
         try {
-            // 저장할 폴더 경로
-            String uploadDir = "uploads/";
+            // 1. 저장할 절대 경로 지정 (현재 프로젝트 기준)
+            String uploadDir = System.getProperty("user.dir") + "/uploads/";
+
             File directory = new File(uploadDir);
             if (!directory.exists()) {
-                directory.mkdirs(); // 없으면 폴더 생성
+                directory.mkdirs();
             }
 
-            // 파일 저장
-            String filePath = uploadDir + file.getOriginalFilename();
+            // 2. 파일 이름 중복 방지 (시간+이름 조합)
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            String filePath = uploadDir + fileName;
+
             file.transferTo(new File(filePath));
 
-            model.addAttribute("message", "파일 업로드 성공: " + file.getOriginalFilename());
+            model.addAttribute("message", "파일 업로드 성공: " + fileName);
 
         } catch (IOException e) {
             e.printStackTrace();
             model.addAttribute("message", "파일 업로드 실패: " + e.getMessage());
         }
 
-        return "index"; // 업로드 후 다시 index.html로
+        return "index";
     }
+
 }
