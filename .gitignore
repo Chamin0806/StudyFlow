@@ -1,0 +1,72 @@
+# === 공통 ===
+# OS별 불필요한 파일
+.DS_Store
+Thumbs.db
+
+# IDE 설정
+.idea/
+.vscode/
+*.iml
+
+# === Java / SpringBoot ===
+/build/
+/target/
+/out/
+/*.class
+
+# Maven / Gradle 관련
+.mvn/
+.gradle/
+/settings.gradle
+!gradle-wrapper.jar  # gradle-wrapper.jar은 포함시켜야 할 때도 있음
+
+# 로그 파일
+*.log
+/logs/
+
+# 민감한 설정 파일
+application-secret.yml
+application-secret.properties
+
+# === Python ===
+# 가상환경
+venv/
+.venv/
+ENV/
+env/
+
+# Python 캐시
+__pycache__/
+*.py[cod]
+*.so
+
+# pipenv, poetry 같은 툴 관련
+Pipfile.lock
+poetry.lock
+
+# === 기타 ===
+# 패키징된 파일
+*.jar
+*.war
+*.zip
+
+# Node.js (만약 프론트엔드 추가할 경우)
+node_modules/
+
+# Coverage/test 관련
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+*.pyc
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+
+# 환경 변수 파일
+.env
+
+#Custom
+python-server/book_analysis/*
