@@ -70,3 +70,4 @@ coverage.xml
 
 #Custom
 python-server/book_analysis/*
+springboot-server/uploads/*
