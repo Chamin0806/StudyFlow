@@ -15,7 +15,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "index"; // src/main/resources/templates/index.html 렌더링
+        return "index";
     }
 
     @PostMapping("/upload")
@@ -26,21 +26,20 @@ public class HomeController {
         }
 
         try {
-            // 1. 저장할 절대 경로 지정 (현재 프로젝트 기준)
             String uploadDir = System.getProperty("user.dir") + "/uploads/";
-
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-            // 2. 파일 이름 중복 방지 (시간+이름 조합)
             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
             String filePath = uploadDir + fileName;
-
             file.transferTo(new File(filePath));
 
-            model.addAttribute("message", "파일 업로드 성공: " + fileName);
+            String pythonServerUrl = "http://14.46.29.200:3500/process?filename=" + fileName;
+            sendRequestToPythonServer(pythonServerUrl);
+
+            model.addAttribute("message", "파일 업로드 및 처리 요청 완료: " + fileName);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,6 +47,21 @@ public class HomeController {
         }
 
         return "index";
+    }
+
+    private void sendRequestToPythonServer(String url) {
+        try {
+            java.net.URL pythonUrl = new java.net.URL(url);
+            java.net.HttpURLConnection connection = (java.net.HttpURLConnection) pythonUrl.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("📡 Python 서버 응답 코드: " + responseCode);
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
