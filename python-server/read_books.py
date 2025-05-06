@@ -81,6 +81,7 @@ def process_page(client: OpenAI, page_text: str, current_knowledge: list[str], p
             - 구체적이고, 정확한 표현 사용
             - 중요한 용어는 원어 그대로 보존
             - 필요 시 간단한 설명도 추가
+            - 전체 요약본을 json 형태로 정리
 
             (주의) 페이지 전체를 요약하지 말고, 학습 가치가 있는 포인트만 뽑아내세요.
             """},
