@@ -98,6 +98,7 @@ def process_pdf(task_id: str, filename: str, start_page: int, end_page: int):
                 - 구체적이고, 정확한 표현 사용
                 - 중요한 용어는 원어 그대로 보존
                 - 필요 시 간단한 설명도 추가
+                - 한국어로 출력 작성
 
                 [요약 작성 규칙]
                 - 
