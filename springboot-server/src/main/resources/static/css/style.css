@@ -1,4 +1,81 @@
-span {color: red;}
+/* 전체 기본 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 스타일 */
+h1 {
+    font-family: 'Island Moments', cursive;
+    font-size: 4em;
+    text-align: center;
+    color: #4A90E2;
+    margin-top: 30px;
+}
+
+h1 span {
+    font-family: 'Island Moments', cursive;
+    color: #50E3C2;
+}
+
+/* 폼 영역 */
+form {
+    width: 60%;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="file"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
 button {
-    background-color: blue;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #357ABD;
+}
+
+/* 진행 상황 섹션 */
+#progressText {
+    margin: 20px auto;
+    width: 60%;
+    font-weight: bold;
+    color: #FF5A5F;
+}
+
+/* 푸터 스타일 */
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: #eceff1;
+    margin-top: 50px;
+}
+
+footer h2 {
+    color: #333;
+}
+
+footer span {
+    color: #50E3C2;
 }

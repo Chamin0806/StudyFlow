@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Island+Moments&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>StudyFlow</title>
 </head>
@@ -19,9 +20,7 @@
 <div th:if="${taskId}">
     <h2><span>진행</span> 상황</h2>
     <div id="progressText">분석 시작 대기 중...</div>
-</div>
-
-
+</div><br><br>
 
 </body>
 
@@ -30,6 +29,12 @@
     <h2>
         <span>AI와</span> 함께 공부
     </h2>
-    <input type="file" name="file.for.std" accept="application/pdf" required><br>
+    <input type="file" name="help.user" accept="application/pdf" required><br><br>
+    <div id="pdfViewer">
+        <!-- JS를 통해 한 페이지씩 요약된 내용이 여기에 출력됩니다 -->
+    </div>
+
+    <button id="markDifficultBtn">🤔 이해 어려운 부분 표시</button><br><br>
+    <button id="explainAI">📘 AI 설명 요청</button><br><br>
 </footer>
 </html>
