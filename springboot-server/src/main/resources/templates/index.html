@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Island+Moments&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>PDF 파일 업로드</title>
+    <title>StudyFlow</title>
 </head>
 <body>
 <script th:src="@{/js/main.js}"></script>
-<h1>PDF 파일 업로드_1</h1>
-
+<h1><span>Study</span> Flow</h1>
+<hr><br>
 <form action="/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file" accept="application/pdf" required><br><br>
     시작 페이지: <input type="number" name="startPage" min="1" required><br><br>
@@ -17,10 +18,23 @@
 </form>
 
 <div th:if="${taskId}">
-    <h2>진행 상황</h2>
+    <h2><span>진행</span> 상황</h2>
     <div id="progressText">분석 시작 대기 중...</div>
-</div>
-
+</div><br><br>
 
 </body>
+
+<footer>
+    <hr>
+    <h2>
+        <span>AI와</span> 함께 공부
+    </h2>
+    <input type="file" name="help.user" accept="application/pdf" required><br><br>
+    <div id="pdfViewer">
+        <!-- JS를 통해 한 페이지씩 요약된 내용이 여기에 출력됩니다 -->
+    </div>
+
+    <button id="markDifficultBtn">🤔 이해 어려운 부분 표시</button><br><br>
+    <button id="explainAI">📘 AI 설명 요청</button><br><br>
+</footer>
 </html>
