@@ -40,7 +40,7 @@ public class HomeController {
             String filePath = uploadDir + fileName;
             file.transferTo(new File(filePath));
 
-            String pythonServerUrl = "http://14.46.29.200:3500/process?filename=" + fileName +
+            String pythonServerUrl = "http://localhost:3500/process?filename=" + fileName +
                     "&start_page=" + startPage +
                     "&end_page=" + endPage;
 
