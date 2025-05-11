@@ -3,7 +3,7 @@ const taskId = "[[${taskId}]]";
 console.log("taskId:", taskId);
 if(taskId && taskId.trim() !== ""){
     const intervalId = setInterval(() => {
-        fetch(`http://14.46.29.200:3500/progress?task_id=${taskId}`)
+        fetch(`http://localhost:3500/progress?task_id=${taskId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.current_page !== undefined && data.total_pages !== undefined) {
@@ -15,7 +15,7 @@ if(taskId && taskId.trim() !== ""){
                         document.getElementById('progressText').innerText = "분석 완료!";
 
                         // 분석 끝나면 결과 가져오기
-                        fetch(`http://14.46.29.200:3500/result?task_id=${taskId}`)
+                        fetch(`http://localhost:3500/result?task_id=${taskId}`)
                             .then(response => response.json())
                             .then(resultData => {
                                 console.log("최종 요약 결과:", resultData);
