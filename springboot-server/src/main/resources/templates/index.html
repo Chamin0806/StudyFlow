@@ -18,9 +18,10 @@
 </form>
 
 <div th:if="${taskId}">
-    <h2><span>진행</span> 상황</h2>
-    <div id="progressText">분석 시작 대기 중...</div>
-</div><br><br>
+    <h2>진행 상황</h2>
+    <div id="progressText">진행 상황 로딩 중...</div>
+    <progress id="progressBar" value="0" max="100" style="width: 100%; height: 25px;"></progress>
+</div>
 
 </body>
 
@@ -36,5 +37,54 @@
 
     <button id="markDifficultBtn">🤔 이해 어려운 부분 표시</button><br><br>
     <button id="explainAI">📘 AI 설명 요청</button><br><br>
+    <button id="generateQuizBtn">🧠 AI 퀴즈 생성</button><br><br>
 </footer>
+
+<script>
+    const taskId = "[[${taskId}]]";
+    console.log("taskId:", taskId);
+
+    if (taskId && taskId.trim() !== "") {
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
+
+        const intervalId = setInterval(() => {
+            fetch(`http://localhost:3500/progress?task_id=${taskId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.current_page !== undefined && data.total_pages !== undefined) {
+                        const percent = Math.floor((data.current_page / data.total_pages) * 100);
+                        progressBar.value = percent;
+                        progressText.innerText = `현재 ${data.current_page}/${data.total_pages} 페이지 작업 중... (${percent}%)`;
+
+                        if (data.current_page === data.total_pages) {
+                            clearInterval(intervalId);
+                            progressBar.value = 100;
+                            progressText.innerText = "분석 완료!";
+
+                            fetch(`http://localhost:3500/result?task_id=${taskId}`)
+                                .then(response => response.json())
+                                .then(resultData => {
+                                    console.log("최종 요약 결과:", resultData);
+
+                                    const resultDiv = document.createElement("div");
+                                    resultDiv.innerHTML = "<h3>요약 결과</h3><pre>" +
+                                        JSON.stringify(resultData, null, 2) + "</pre>";
+                                    document.body.appendChild(resultDiv);
+                                })
+                                .catch(error => {
+                                    console.error("요약 결과 요청 오류:", error);
+                                    alert("요약 결과를 불러오는 중 오류가 발생했습니다.");
+                                });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("Progress 요청 중 오류:", error);
+                    alert("서버 연결 오류: 진행률 정보를 가져올 수 없습니다.");
+                });
+        }, 2000);
+    }
+</script>
+
 </html>

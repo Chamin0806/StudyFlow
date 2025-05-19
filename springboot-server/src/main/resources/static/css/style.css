@@ -1,5 +1,3 @@
-
-=======
 /* 전체 기본 스타일 */
 body {
     font-family: 'Arial', sans-serif;
@@ -44,19 +42,35 @@ input[type="number"] {
 }
 
 button {
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    padding: 12px 20px;
+    display: block;
+    margin: 16px auto;
+    padding: 10px 24px;
     font-size: 1em;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #4A90E2, #50E3C2);
+    border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 240px;
     width: 100%;
+    text-align: center;
+    letter-spacing: 0.5px;
 }
 
 button:hover {
-    background-color: #357ABD;
+    background: linear-gradient(135deg, #3c7dc4, #3cc8b4);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
+
+button:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 /* 진행 상황 섹션 */
 #progressText {
