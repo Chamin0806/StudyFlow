@@ -1,5 +1,4 @@
 
-=======
 /* 전체 기본 스타일 */
 body {
     font-family: 'Arial', sans-serif;
@@ -25,8 +24,8 @@ h1 span {
 
 /* 폼 영역 */
 form {
-    width: 60%;
-    margin: 30px auto;
+    width: 700px;
+    margin: 100px auto;
     background-color: white;
     padding: 20px;
     border-radius: 12px;
