@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title layout:title-pattern="$CONTENT_TITLE | PDF 분석기">PDF 분석기</title>
+  <title layout:title-pattern="$CONTENT_TITLE | StudyFlow">StudyFlow</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/main.js" defer></script>
 </head>
@@ -13,10 +13,19 @@
 <body>
 
 <header>
-  <h1>StudyFlow</h1>
+  <a href="/" class="logo">
+    <img src="/image/logo_studyflow.png" alt="StudyFlow Logo">
+  </a>
+  <nav>
+    <ul>
+      <li><a href="#">PDF 요약</a></li>
+      <li><a href="#">자료 추천</a></li>
+      <li><a href="#">문제 풀이</a></li>
+      <li><a href="#">고객지원</a></li>
+    </ul>
+  </nav>
 </header>
 
-<hr>
 
 <!-- 페이지 콘텐츠 -->
 <section layout:fragment="content"></section>
