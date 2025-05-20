@@ -1,90 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
 <head>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Island+Moments&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>StudyFlow</title>
+    <title>홈</title>
 </head>
+
 <body>
-<script th:src="@{/js/main.js}"></script>
-<h1><span>Study</span> Flow</h1>
-<hr><br>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="application/pdf" required><br><br>
-    시작 페이지: <input type="number" name="startPage" min="1" required><br><br>
-    끝 페이지: <input type="number" name="endPage" min="1" required><br><br>
-    <button type="submit">업로드 및 분석 시작</button>
-</form>
+<section layout:fragment="content">
 
-<div th:if="${taskId}">
-    <h2>진행 상황</h2>
-    <div id="progressText">진행 상황 로딩 중...</div>
-    <progress id="progressBar" value="0" max="100" style="width: 100%; height: 25px;"></progress>
-</div>
+    <div th:if="${taskId == null}">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="application/pdf" required><br><br>
+            시작 페이지: <input type="number" name="startPage" min="1" required><br><br>
+            끝 페이지: <input type="number" name="endPage" min="1" required><br><br>
+            <button type="submit">업로드 및 분석 시작</button>
+        </form>
 
-</body>
-
-<footer>
-    <hr>
-    <h2>
-        <span>AI와</span> 함께 공부
-    </h2>
-    <input type="file" name="help.user" accept="application/pdf" required><br><br>
-    <div id="pdfViewer">
-        <!-- JS를 통해 한 페이지씩 요약된 내용이 여기에 출력됩니다 -->
+        <div th:if="${message}">
+            <p th:text="${message}" style="color: red;"></p>
+        </div>
     </div>
 
-    <button id="markDifficultBtn">🤔 이해 어려운 부분 표시</button><br><br>
-    <button id="explainAI">📘 AI 설명 요청</button><br><br>
-    <button id="generateQuizBtn">🧠 AI 퀴즈 생성</button><br><br>
-</footer>
+    <div th:if="${taskId}">
+        <h2>진행 상황</h2>
+        <progress id="loader" value="0" max="100"></progress>
+        <div id="progressText">분석 대기 중...</div>
+    </div>
 
-<script>
-    const taskId = "[[${taskId}]]";
-    console.log("taskId:", taskId);
+    <div id="result-box"></div>
 
-    if (taskId && taskId.trim() !== "") {
-        const progressBar = document.getElementById("progressBar");
-        const progressText = document.getElementById("progressText");
-
-        const intervalId = setInterval(() => {
-            fetch(`http://localhost:3500/progress?task_id=${taskId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.current_page !== undefined && data.total_pages !== undefined) {
-                        const percent = Math.floor((data.current_page / data.total_pages) * 100);
-                        progressBar.value = percent;
-                        progressText.innerText = `현재 ${data.current_page}/${data.total_pages} 페이지 작업 중... (${percent}%)`;
-
-                        if (data.current_page === data.total_pages) {
-                            clearInterval(intervalId);
-                            progressBar.value = 100;
-                            progressText.innerText = "분석 완료!";
-
-                            fetch(`http://localhost:3500/result?task_id=${taskId}`)
-                                .then(response => response.json())
-                                .then(resultData => {
-                                    console.log("최종 요약 결과:", resultData);
-
-                                    const resultDiv = document.createElement("div");
-                                    resultDiv.innerHTML = "<h3>요약 결과</h3><pre>" +
-                                        JSON.stringify(resultData, null, 2) + "</pre>";
-                                    document.body.appendChild(resultDiv);
-                                })
-                                .catch(error => {
-                                    console.error("요약 결과 요청 오류:", error);
-                                    alert("요약 결과를 불러오는 중 오류가 발생했습니다.");
-                                });
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error("Progress 요청 중 오류:", error);
-                    alert("서버 연결 오류: 진행률 정보를 가져올 수 없습니다.");
-                });
-        }, 2000);
-    }
-</script>
-
+</section>
+</body>
 </html>

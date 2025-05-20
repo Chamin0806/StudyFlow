@@ -1,38 +1,55 @@
-// const taskId = "[[${taskId}]]";
-//
-// console.log("taskId:", taskId);
-// if(taskId && taskId.trim() !== ""){
-//     const intervalId = setInterval(() => {
-//         fetch(`http://localhost:3500/progress?task_id=${taskId}`)
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.current_page !== undefined && data.total_pages !== undefined) {
-//                     document.getElementById('progressText').innerText =
-//                         `현재 ${data.current_page}/${data.total_pages} 페이지 작업 중...`;
-//
-//                     if (data.current_page === data.total_pages) {
-//                         clearInterval(intervalId);
-//                         document.getElementById('progressText').innerText = "분석 완료!";
-//
-//                         // 분석 끝나면 결과 가져오기
-//                         fetch(`http://localhost:3500/result?task_id=${taskId}`)
-//                             .then(response => response.json())
-//                             .then(resultData => {
-//                                 console.log("최종 요약 결과:", resultData);
-//
-//                                 // 결과를 웹에 표시
-//                                 const resultDiv = document.createElement("div");
-//                                 resultDiv.innerHTML = "<h3>요약 결과</h3><pre>" + JSON.stringify(resultData, null, 2) + "</pre>";
-//                                 document.body.appendChild(resultDiv);
-//                             })
-//                             .catch(error => {
-//                                 console.error("요약 결과 요청 오류:", error);
-//                             });
-//                     }
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error("Progress 요청 중 오류:", error);
-//             });
-//     }, 2000);
-// }
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const taskId = params.get("taskId");
+
+    if (!taskId || taskId.trim() === "") {
+        return;
+    }
+
+    const loader = document.getElementById("loader");
+    const progressText = document.getElementById("progressText");
+    const resultBox = document.getElementById("result-box");
+
+    const intervalId = setInterval(() => {
+        fetch(`http://localhost:3500/progress?task_id=${taskId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.current_page !== undefined && data.total_pages !== undefined) {
+                    const percent = Math.floor((data.current_page / data.total_pages) * 100);
+                    loader.value = percent;
+                    progressText.innerText =
+                        `현재 ${data.current_page}/${data.total_pages} 페이지 작업 중... (${percent}%)`;
+
+                    if (data.current_page === data.total_pages) {
+                        clearInterval(intervalId);
+                        progressText.innerText = "✅ 분석 완료! 곧 결과 페이지로 이동됩니다.";
+
+
+                        // result 요청 약간 지연 (파이썬에서 결과를 저장하기 전에 요청해서 오류나는 경우가 있었음)
+                        setTimeout(() => {
+                            fetch(`http://localhost:3500/result?task_id=${taskId}`)
+                                .then(res => res.json())
+                                .then(json => {
+                                    loader.style.display = "none";
+                                    progressText.style.display = "none";
+                                    const pre = document.createElement("pre");
+                                    pre.textContent = JSON.stringify(json, null, 2);
+                                    resultBox.innerHTML = "<h3>요약 결과</h3>";
+                                    resultBox.appendChild(pre);
+                                })
+                                .catch(err => {
+                                    loader.style.display = "none";
+                                    progressText.style.display = "none";
+                                    resultBox.innerHTML = "<p style='color:red;'>결과 요청 실패</p>";
+                                    console.error("결과 요청 오류:", err);
+                                });
+                        }, 1000); // 1초 딜레이
+                    }
+
+                }
+            })
+            .catch(err => {
+                console.error("진행 상황 요청 오류:", err);
+            });
+    }, 2000);
+});
