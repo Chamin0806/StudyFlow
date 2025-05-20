@@ -12,12 +12,39 @@
 <section layout:fragment="content">
 
     <div th:if="${taskId == null}">
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="application/pdf" required><br><br>
-            시작 페이지: <input type="number" name="startPage" min="1" required><br><br>
-            끝 페이지: <input type="number" name="endPage" min="1" required><br><br>
-            <button type="submit">업로드 및 분석 시작</button>
-        </form>
+        <div style="max-width: 700px; margin: 0 auto;">
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="/image/Landing_Page_Image_2.png"
+                     onclick="scrollToForm()"
+                     style="cursor: pointer; max-width: 700px; width: 100%; height: auto;border-radius: 12px;">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 23px; font-weight: 700;">
+                    <h1 style="margin: 0;">학습에서 찾는 새로운 즐거움</h1>
+                    <h1 style="margin: 0;">나만의 학습비서 StudyFlow</h1>
+                </div>
+                <div style="background-color: #50E3C2; width: 300px; height: 200px;border-radius: 12px;"></div>
+            </div>
+            <div style="padding-top: 200px">
+                <div style="text-align: center">
+                    <p style="font-size: 35px; font-weight: 700;margin: 0">
+                        <span style="color: #50E3C2;">StudyFlow </span>를 사용해보세요!
+                    </p>
+                    <p style="font-size: 17px; font-weight: 700;">pdf를 업로드하여 시작합니다.</p>
+                </div>
+                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                    PDF파일 업로드
+                    <input type="file" name="file" accept="application/pdf" required><br><br>
+                    시작 페이지: <input type="number" name="startPage" min="1" required><br><br>
+                    끝 페이지: <input type="number" name="endPage" min="1" required><br><br>
+                    <button type="submit">업로드 및 분석 시작</button>
+                </form>
+            </div>
+
+        </div>
+
+
 
         <div th:if="${message}">
             <p th:text="${message}" style="color: red;"></p>

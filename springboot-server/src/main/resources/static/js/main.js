@@ -53,3 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }, 2000);
 });
+
+function scrollToForm() {
+    const formElement = document.getElementById("uploadForm");
+    if (formElement) {
+        formElement.scrollIntoView({ behavior: "smooth" });
+    }
+}
