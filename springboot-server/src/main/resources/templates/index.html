@@ -91,13 +91,53 @@
         </div>
     </div>
 
-    <div th:if="${taskId}">
-        <h2>진행 상황</h2>
-        <progress id="loader" value="0" max="100"></progress>
-        <div id="progressText">분석 대기 중...</div>
+    <div style="max-width: 700px; margin: 0 auto; padding-top: 80px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+
+        <div th:if="${taskId}" style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 24px; margin-bottom: 20px;">💡 STATUS 💡</h2>
+            <progress id="loader" value="0" max="100" style="width: 60%; height: 20px;"></progress>
+            <div id="progressText" style="margin-top: 12px; font-weight: bold; font-size: 16px;">
+                🤖⏳📡 AI 분석 중입니다...
+            </div>
+        </div>
+
+        <div id="result-box" style="
+        margin: 0 auto;
+        width: 100%;
+        max-width: 700px;
+        height: 500px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow-y: auto;
+        overflow-x: hidden;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        font-size: 15px;
+        box-sizing: border-box;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    ">
+            <!-- 여기에 텍스트 넣기 -->
+        </div>
+
+        <style>
+            #result-box pre {
+                white-space: pre-wrap !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                margin: 0;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+
     </div>
 
-    <div id="result-box"></div>
 
 </section>
 </body>
