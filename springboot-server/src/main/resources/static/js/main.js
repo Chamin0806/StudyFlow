@@ -66,3 +66,49 @@ function scrollToForm() {
         });
     }
 }
+
+//체크박스 관련(관련 자료 추천이나 예상 문제 생성)
+document.addEventListener("DOMContentLoaded", () => {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="options"]');
+    const summaryBox = document.getElementById('selected-options-summary');
+    const selectedList = document.getElementById('selected-list');
+
+    if (!checkboxes.length || !summaryBox || !selectedList) {
+        return; // 요소가 없으면 아무 것도 하지 않음 (오류 방지용)
+    }
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+            const selected = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.nextElementSibling.textContent);
+
+            if (selected.length > 0) {
+                summaryBox.style.display = 'block';
+                selectedList.textContent = selected.join(', ');
+            } else {
+                summaryBox.style.display = 'none';
+                selectedList.textContent = '';
+            }
+        });
+    });
+});
+
+//사용자가 업로드한 pdf 표시
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.querySelector('input[type="file"]');
+    const fileNameDisplay = document.getElementById("file-name");
+
+    if (!fileInput || !fileNameDisplay) return;
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (file) {
+            fileNameDisplay.textContent = `선택된 파일: ${file.name}`;
+            fileNameDisplay.style.display = "block";
+        } else {
+            fileNameDisplay.textContent = "";
+            fileNameDisplay.style.display = "none";
+        }
+    });
+});

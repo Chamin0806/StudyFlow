@@ -76,79 +76,273 @@ body {
 /* 폼 영역 */
 form {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 30px;
     max-width: 500px;
-    margin: 0 auto;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     font-family: 'Segoe UI', sans-serif;
 }
 
-.form-group {
+.form-header {
+    text-align: center;
     margin-bottom: 20px;
+}
+
+.form-header img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.form-header-text {
+    text-align: center;
+}
+
+.form-header-text h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.form-header-text p {
+    font-size: 14px;
+    color: #555;
+}
+
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background-color: #f4f9ff;
+    border: 2px solid #4A90E2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.3s ease;
+}
+
+.file-upload-label:hover {
+    background-color: #e6f0fc;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
+}
+
+.upload-image {
+    width: 40px;
+    height: auto;
+    object-fit: contain;
+}
+
+.file-upload-label span {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 24px;
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
+    margin-bottom: 8px;
+    font-weight: 600;
     color: #333;
+    font-size: 15px;
 }
 
 input[type="file"],
 input[type="number"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     box-sizing: border-box;
 }
 
-.page-range {
-    display: flex;
-    gap: 10px;
+/* 포커스 시 강조 효과 */
+input[type="file"]:focus,
+input[type="number"]:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    background-color: #eaf4fe;
+    outline: none;
 }
 
-.page-range > div {
-    flex: 1;
+/* 파일 업로드 input 숨기기 (이미지 클릭으로 대체할 경우) */
+input[type="file"] {
+    display: none;
+}
+
+/* 파일 업로드를 위한 커스텀 라벨 스타일 */
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+.file-upload-label:hover {
+    border-color: #4A90E2;
+    background-color: #f0f8ff;
+}
+
+.file-upload-label img.upload-image {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #444;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.page-range div {
+    display: inline-block;
+    width: calc(30% - 10px); /* 각 입력 필드의 너비를 50%로 설정하고, 사이에 여백 추가 */
+    margin-right: 15px; /* 두 입력란 사이에 여백 추가 */
+}
+
+.page-range div:last-child {
+    margin-right: 0; /* 마지막 요소는 오른쪽 여백 제거 */
+}
+
+/* 텍스트와 입력란 스타일 */
+.page-range label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.page-range input {
+    width: 100%; /* 입력란 너비를 100%로 설정하여 부모 영역에 맞추도록 */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.summary-box {
+    margin-top: 16px;
+    padding: 10px 14px;
+    background-color: #f0f8ff;
+    border-left: 4px solid #4A90E2;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
 }
 
 .checkbox-group label {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 15px;
     cursor: pointer;
 }
 
-.checkbox-group input[type="checkbox"] {
-    margin-right: 10px;
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    user-select: none;
+    position: relative;
+}
+
+/* 체크박스 자체 */
+.checkbox-option input[type="checkbox"] {
+    margin-right: 12px;
     accent-color: #4A90E2;
+    width: 20px;
+    height: 20px;
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+}
+
+/* 텍스트 스타일 */
+.checkbox-option span {
+    transition: color 0.3s ease;
+}
+
+/* 선택 시 강조 효과 */
+.checkbox-option:has(input[type="checkbox"]:checked) {
+    background-color: #d8ecff;
+    border-color: #4A90E2;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+    transform: scale(1.02);
+}
+
+/* 선택 시 텍스트 강조 */
+.checkbox-option input[type="checkbox"]:checked + span {
+    font-weight: 700;
+    color: #2e6aa5;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 button[type="submit"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background-color: #4A90E2;
     border: none;
-    color: white;
+    border-radius: 8px;
+    color: #fff;
     font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2); /* 부드러운 그림자 */
 }
 
 button[type="submit"]:hover {
-    background-color: #357ABD;
+    background-color: #3b7cc4;
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+    box-shadow: 0 6px 14px rgba(74, 144, 226, 0.3); /* 그림자 더 강조 */
 }
 
-/* 진행 상황 섹션 */
-#progressText {
-    margin: 20px auto;
-    width: 60%;
-    font-weight: bold;
-    color: #FF5A5F;
+button[type="submit"]:active {
+    background-color: #2e6aa5;
+    transform: scale(0.98); /* 클릭 시 살짝 줄어듦 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* 눌리는 듯한 그림자 */
 }
 
 /* 푸터 스타일 */

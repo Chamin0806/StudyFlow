@@ -34,9 +34,21 @@
                     <p style="font-size: 17px; font-weight: 700;">pdf를 업로드하여 시작합니다.</p>
                 </div>
                 <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-header">
+                        <div class="form-header-text">
+                            <h2>PDF 파일 업로드 및 분석</h2>
+                            <p>원하는 범위를 선택하고 관련 자료나 예상 문제를 받아보세요!</p>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="file">📄 PDF 파일 업로드</label>
-                        <input type="file" name="file" id="file" accept="application/pdf" required>
+                        <input type="file" name="file" id="file" accept="application/pdf" required style="display: none;">
+                        <p id="file-name" class="file-name" style="display: none;"></p>
+                        <label for="file" class="file-upload-label">
+                            <img src="/image/pdf_upload.png" alt="파일 업로드 아이콘" class="upload-image">
+                            <span>PDF 파일을 선택해주세요</span>
+                        </label>
+
                     </div>
 
                     <div class="form-group page-range">
@@ -50,18 +62,23 @@
                         </div>
                     </div>
 
+                    <div id="selected-options-summary" class="summary-box" style="display: none;">
+                        선택된 옵션: <span id="selected-list"></span>
+                    </div>
+
                     <div class="form-group checkbox-group">
-                        <label>
-                            <input type="checkbox" name="options" value="recommendation">
-                            관련 자료 추천
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="options" value="📚 관련 자료 추천">
+                            <span>📚 관련 자료 추천</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
                         </label>
-                        <label>
-                            <input type="checkbox" name="options" value="question">
-                            예상 문제 생성
+
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="options" value="📝 예상 문제 생성">
+                            <span>📝 예상 문제 생성</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
                         </label>
                     </div>
 
-                    <button type="submit">업로드 및 분석 시작</button>
+                    <button type="submit">🚀 업로드 및 분석 시작</button>
                 </form>
             </div>
 
