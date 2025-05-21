@@ -32,9 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                 .then(json => {
                                     loader.style.display = "none";
                                     progressText.style.display = "none";
+
                                     const pre = document.createElement("pre");
                                     pre.textContent = JSON.stringify(json, null, 2);
-                                    resultBox.innerHTML = "<h3>요약 결과</h3>";
+                                    pre.style.fontFamily = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+                                    pre.style.fontSize = "16px";
+                                    pre.style.lineHeight = "1.6";
+                                    pre.style.whiteSpace = "pre-wrap";
+                                    pre.style.wordWrap = "break-word";
+                                    pre.style.overflowWrap = "break-word";
+                                    pre.style.margin = "0";
+
+                                    resultBox.innerHTML = "<h3>🔥 요약 결과 🔥</h3>";
                                     resultBox.appendChild(pre);
                                 })
                                 .catch(err => {
@@ -43,7 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                     resultBox.innerHTML = "<p style='color:red;'>결과 요청 실패</p>";
                                     console.error("결과 요청 오류:", err);
                                 });
-                        }, 1000); // 1초 딜레이
+                        }, 1000);
+
+
+
+
                     }
 
                 }
