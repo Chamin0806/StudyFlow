@@ -57,6 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function scrollToForm() {
     const formElement = document.getElementById("uploadForm");
     if (formElement) {
-        formElement.scrollIntoView({ behavior: "smooth" });
+        const elementTop = formElement.getBoundingClientRect().top;
+        const offset = window.scrollY + elementTop - (window.innerHeight / 2) + (formElement.offsetHeight / 2);
+
+        window.scrollTo({
+            top: offset,
+            behavior: "smooth"
+        });
     }
 }
