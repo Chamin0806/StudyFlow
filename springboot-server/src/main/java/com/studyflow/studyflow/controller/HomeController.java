@@ -1,9 +1,12 @@
 package com.studyflow.studyflow.controller;
 
+import com.studyflow.studyflow.service.PythonAnalysisService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,21 +15,23 @@ import java.net.URL;
 import java.util.Scanner;
 
 @Controller
+@RequiredArgsConstructor //Lombok에서 final로 생성된 필드를 자동으로 생성자에 넣어줌. 생성자 주입으로 받고싶을 때 사용
 public class HomeController {
+    private final PythonAnalysisService pythonService;
 
     @GetMapping("/")
     public String home() {
-        return "index";  // templates/index.html
+        return "index";
     }
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("startPage") int startPage,
                                    @RequestParam("endPage") int endPage,
-                                   Model model) {
+                                   RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
-            model.addAttribute("message", "파일을 선택하지 않았습니다.");
-            return "index";
+            redirectAttributes.addFlashAttribute("message", "파일을 선택하지 않았습니다.");
+            return "redirect:/";
         }
 
         try {
@@ -40,46 +45,31 @@ public class HomeController {
             String filePath = uploadDir + fileName;
             file.transferTo(new File(filePath));
 
-            String pythonServerUrl = "http://14.46.29.200:3500/process?filename=" + fileName +
+            String pythonServerUrl = "http://localhost:3500/process?filename=" + fileName +
                     "&start_page=" + startPage +
                     "&end_page=" + endPage;
 
-            String taskId = sendRequestToPythonServer(pythonServerUrl);
+            String taskId = pythonService.requestTaskIdFromPython(pythonServerUrl);
 
-            model.addAttribute("message", "파일 업로드 및 처리 요청 완료");
-            model.addAttribute("taskId", taskId);
-            model.addAttribute("filename", fileName);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("message", "파일 업로드 실패: " + e.getMessage());
-        }
-
-        return "index";
-    }
-
-    private String sendRequestToPythonServer(String url) {
-        try {
-            URL pythonUrl = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) pythonUrl.openConnection();
-            connection.setRequestMethod("GET");
-
-            Scanner scanner = new Scanner(connection.getInputStream());
-            String response = scanner.useDelimiter("\\A").next();
-            scanner.close();
-            connection.disconnect();
-
-            // 응답 JSON에서 task_id 추출
-            int idx = response.indexOf("task_id");
-            if (idx != -1) {
-                int start = response.indexOf(":", idx) + 2;
-                int end = response.indexOf("\"", start);
-                return response.substring(start, end);
+            if (taskId != null && !taskId.isBlank()) {
+                return "redirect:/result?taskId=" + taskId;
+            } else {
+                redirectAttributes.addFlashAttribute("message", "처리 실패: taskId를 받을 수 없습니다.");
+                return "redirect:/";
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "파일 업로드 실패: " + e.getMessage());
+            return "redirect:/";
         }
-        return null;
     }
+
+
+    @GetMapping("/result")
+    public String resultPage(@RequestParam("taskId") String taskId, Model model) {
+        model.addAttribute("taskId", taskId);  // thymeLeaf에다가 넘겨줌 index.html에서 {taskId} 이런식으로 사용가능함
+        return "index";
+    }
+
 }

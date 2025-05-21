@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="UTF-8">
+  <title layout:title-pattern="$CONTENT_TITLE | StudyFlow">StudyFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/main.js" defer></script>
+</head>
+
+<body>
+
+<header>
+  <a href="/" class="logo">
+    <img src="/image/logo_studyflow.png" alt="StudyFlow Logo">
+  </a>
+  <nav>
+    <ul>
+      <li><a href="#">PDF 요약</a></li>
+      <li><a href="#">자료 추천</a></li>
+      <li><a href="#">문제 풀이</a></li>
+      <li><a href="#">고객지원</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<!-- 페이지 콘텐츠 -->
+<section layout:fragment="content"></section>
+
+<footer>
+  <p>© 2025 StudyFlow</p>
+</footer>
+
+</body>
+</html>
