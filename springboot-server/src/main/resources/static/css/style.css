@@ -75,36 +75,71 @@ body {
 
 /* 폼 영역 */
 form {
-    width: auto;
-    margin: 10px auto;
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
 }
 
 input[type="file"],
 input[type="number"] {
-    width: 30%;
+    width: 100%;
     padding: 10px;
-    margin: 5px 0 15px 0;
     border: 1px solid #ccc;
     border-radius: 6px;
+    font-size: 14px;
     box-sizing: border-box;
 }
 
-button {
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1em;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
+.page-range {
+    display: flex;
+    gap: 10px;
 }
 
-button:hover {
+.page-range > div {
+    flex: 1;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #4A90E2;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #4A90E2;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
     background-color: #357ABD;
 }
 
