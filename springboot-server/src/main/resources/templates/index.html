@@ -84,16 +84,14 @@
 
         </div>
 
-
-
         <div th:if="${message}">
             <p th:text="${message}" style="color: red;"></p>
         </div>
     </div>
 
-    <div style="max-width: 700px; margin: 0 auto; padding-top: 80px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div th:if="${taskId}" style="max-width: 700px; margin: 0 auto; padding-top: 80px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
 
-        <div th:if="${taskId}" style="text-align: center; margin-bottom: 40px;">
+        <div style="text-align: center; margin-bottom: 40px;">
             <h2 style="font-size: 24px; margin-bottom: 20px;">💡 STATUS 💡</h2>
             <progress id="loader" value="0" max="100" style="width: 60%; height: 20px;"></progress>
             <div id="progressText" style="margin-top: 12px; font-weight: bold; font-size: 16px;">
@@ -121,7 +119,11 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
     ">
-            <!-- 여기에 텍스트 넣기 -->
+            <p th:text="${resultText}">분석 결과가 여기에 표시됩니다.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="saveTempBtn" type="button">💾 복사하기 💾</button>
         </div>
 
         <style>
