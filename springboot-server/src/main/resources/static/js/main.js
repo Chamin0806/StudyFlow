@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultBox = document.getElementById("result-box");
 
     const intervalId = setInterval(() => {
-        fetch(`http://localhost:3500/progress?task_id=${taskId}`)
+        fetch(`http://14.46.29.200:3500/progress?task_id=${taskId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.current_page !== undefined && data.total_pages !== undefined) {
@@ -23,24 +23,43 @@ document.addEventListener("DOMContentLoaded", () => {
                         progressText.innerText = "✅ 분석 완료! 곧 결과 페이지로 이동됩니다.";
 
                         setTimeout(() => {
-                            fetch(`http://localhost:3500/result?task_id=${taskId}`)
+                            fetch(`http://14.46.29.200:3500/result?task_id=${taskId}`)
                                 .then(res => res.json())
                                 .then(json => {
                                     loader.style.display = "none";
                                     progressText.style.display = "none";
 
-                                    const pre = document.createElement("pre");
-                                    pre.textContent = JSON.stringify(json, null, 2);
-                                    pre.style.fontFamily = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-                                    pre.style.fontSize = "16px";
-                                    pre.style.lineHeight = "1.6";
-                                    pre.style.whiteSpace = "pre-wrap";
-                                    pre.style.wordWrap = "break-word";
-                                    pre.style.overflowWrap = "break-word";
-                                    pre.style.margin = "0";
+                                    const converter = new showdown.Converter();
+                                    let html = "<h3>요약 결과</h3>";
 
-                                    resultBox.innerHTML = "<h3>🔥 요약 결과 🔥</h3>";
-                                    resultBox.appendChild(pre);
+                                    // knowledge 영역
+                                    if (json.knowledge) {
+                                        const markdownText = json.knowledge.join('\n');
+                                        html += converter.makeHtml(markdownText);
+                                    }
+
+                                    // recommendation 영역
+                                    if (json.recommendation) {
+                                        html += "<h3>추천 자료</h3>";
+                                        html += `<p>${json.recommendation}</p>`;
+                                    }
+
+                                    // questions 영역
+                                    if (json.questions) {
+                                        html += "<h3>문제</h3>";
+                                        Object.entries(json.questions).forEach(([key, qa]) => {
+                                            const questionId = `answer-${key}`;
+                                            html += `
+                                            <div style='margin-bottom: 1em;'>
+                                                <p><strong>Q${key}. ${qa.문제}</strong></p>
+                                                <button onclick="document.getElementById('${questionId}').style.display = 'inline'; this.style.display = 'none';">정답 보기</button>
+                                                <span id='${questionId}' style='display:none; margin-left: 10px; color: green;'><strong>${qa.정답}</strong></span>
+                                            </div>
+                                        `;
+                                        });
+                                    }
+
+                                    resultBox.innerHTML = html;
                                 })
                                 .catch(err => {
                                     loader.style.display = "none";
@@ -49,9 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                     console.error("결과 요청 오류:", err);
                                 });
                         }, 1000);
-
-
-
                     }
                 }
             })
@@ -59,13 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("진행 상황 요청 오류:", err);
             });
     }, 2000);
+
+
 });
 
 function scrollToForm() {
     const formElement = document.getElementById("uploadForm");
     if (formElement) {
         const elementTop = formElement.getBoundingClientRect().top;
-        const offset = window.scrollY + elementTop - (window.innerHeight / 2) + (formElement.offsetHeight / 2);
+        const offset = window.scrollY + elementTop - (window.innerHeight / 2) + (formElement.offsetHeight / 2)-50;
 
         window.scrollTo({
             top: offset,

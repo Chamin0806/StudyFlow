@@ -24,96 +24,67 @@
             </div>
             <div style="background-color: #50E3C2; width: 300px; height: 200px;border-radius: 12px;"></div>
         </div>
-        <div style="padding-top: 200px;padding-bottom: 200px">
+        <div style="padding-top: 200px;padding-bottom: 150px">
             <div style="text-align: center">
                 <p style="font-size: 35px; font-weight: 700;margin: 0">
                     <span style="color: #50E3C2;">StudyFlow </span>를 사용해보세요!
                 </p>
                 <p style="font-size: 17px; font-weight: 700;">pdf를 업로드하여 시작합니다.</p>
             </div>
-            <div style="padding-top: 200px;padding-bottom: 200px">
-                <div style="text-align: center">
-                    <p style="font-size: 35px; font-weight: 700;margin: 0">
-                        <span style="color: #50E3C2;">StudyFlow </span>를 사용해보세요!
-                    </p>
-                    <p style="font-size: 17px; font-weight: 700;">pdf를 업로드하여 시작합니다.</p>
-                </div>
-                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-                    <div class="form-header">
-                        <div class="form-header-text">
-                            <h2>PDF 파일 업로드 및 분석</h2>
-                            <p>원하는 범위를 선택하고 관련 자료나 예상 문제를 받아보세요!</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="file" name="file" id="file" accept="application/pdf" required style="display: none;">
-                        <p id="file-name" class="file-name" style="display: none;"></p>
-                        <label for="file" class="file-upload-label">
-                            <img src="/image/pdf_upload.png" alt="파일 업로드 아이콘" class="upload-image">
-                            <span>PDF 파일을 선택해주세요</span>
-                        </label>
-
-                    </div>
-
-                    <div class="form-group page-range">
-                        <div>
-                            <label for="startPage">시작 페이지</label>
-                            <input type="number" name="startPage" id="startPage" min="1" required value="1">
-                        </div>
-                        <div>
-                            <label for="endPage">끝 페이지</label>
-                            <input type="number" name="endPage" id="endPage" min="1" required value="2">
-                        </div>
-                    </div>
-
-                    <div id="selected-options-summary" class="summary-box" style="display: none;">
-                        선택된 옵션: <span id="selected-list"></span>
-                    </div>
-
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="options" value="recommendation">
-                            <span>📚 관련 자료 추천</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
-                        </label>
-
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="options" value="question">
-                            <span>📝 예상 문제 생성</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
-                        </label>
+            <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                <div class="form-header">
+                    <div class="form-header-text">
+                        <h2>PDF 파일 업로드 및 분석</h2>
                     </div>
                 </div>
-                    <button type="submit">🚀 업로드 및 분석 시작</button>
-                </form>
-            </div>
 
-        </div>
-
-                    <label style="display: flex; align-items: center;">
-                        <input type="checkbox" name="options" value="question"
-                               style="accent-color: #4A90E2; margin-right: 8px;">
-                        예상 문제 생성
+                <div class="form-group">
+                    <input type="file" name="file" id="file" accept="application/pdf" required style="display: none;">
+                    <p id="file-name" class="file-name" style="display: none;"></p>
+                    <label for="file" class="file-upload-label">
+                        <img src="/image/pdf_upload.png" alt="파일 업로드 아이콘" class="upload-image">
+                        <span>PDF 파일을 선택해주세요</span>
                     </label>
+
                 </div>
 
-                <button type="submit" style="margin-top: 20px;">업로드 및 분석 시작</button>
+                <div class="form-group page-range">
+                    <div>
+                        <label for="startPage">시작 페이지</label>
+                        <input type="number" name="startPage" id="startPage" min="1" required value="1">
+                    </div>
+                    <div>
+                        <label for="endPage">끝 페이지</label>
+                        <input type="number" name="endPage" id="endPage" min="1" required value="2">
+                    </div>
+                </div>
+
+                <div id="selected-options-summary" class="summary-box" style="display: none;">
+                    선택된 옵션: <span id="selected-list"></span>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="options" value="recommendation">
+                        <span>📚 관련 자료 추천</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
+                    </label>
+
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="options" value="question">
+                        <span>📝 예상 문제 생성</span> <!-- 이 텍스트가 선택되서 표시됩니다. -->
+                    </label>
+                    <button type="submit">🚀 업로드 및 분석 시작</button>
+                </div>
             </form>
         </div>
+
 
         <div th:if="${message}">
             <p th:text="${message}" style="color: red;"></p>
         </div>
     </div>
 
-    <div style="max-width: 700px; margin: 0 auto; padding-top: 80px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-
-        <div th:if="${taskId}" style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 24px; margin-bottom: 20px;">💡 STATUS 💡</h2>
-            <progress id="loader" value="0" max="100" style="width: 60%; height: 20px;"></progress>
-            <div id="progressText" style="margin-top: 12px; font-weight: bold; font-size: 16px;">
-                🤖⏳📡 AI 분석 중입니다...
-            </div>
-        </div>
+    <div th:if="${taskId}" style="max-width: 700px; margin: 0 auto; padding-top: 80px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
 
         <div id="result-box" style="
         margin: 0 auto;
@@ -133,22 +104,15 @@
         box-sizing: border-box;
         white-space: normal;
         word-wrap: break-word;
-        overflow-wrap: break-word;
-    ">
-            <!-- 여기에 텍스트 넣기 -->
+        overflow-wrap: break-word;">
+            <div  style="text-align: center;">
+                <h2 style="font-size: 24px; margin-bottom: 20px;">진행상황</h2>
+                <progress id="loader" value="0" max="100" style="width: 60%; height: 20px;"></progress>
+                <div id="progressText" style="margin-top: 12px; font-weight: bold; font-size: 16px;">
+                    ⏳ AI 분석 중입니다...
+                </div>
+            </div>
         </div>
-
-        <style>
-            #result-box pre {
-                white-space: pre-wrap !important;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                margin: 0;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        </style>
 
     </div>
 

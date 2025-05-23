@@ -359,4 +359,16 @@ footer h2 {
 
 footer span {
     color: #50E3C2;
+
+
+}
+
+#result-box pre {
+    white-space: pre-wrap !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
 }
