@@ -50,7 +50,7 @@ public class HomeController {
             boolean needQuestion = options != null && options.contains("question");
 
             String pythonServerUrl = String.format(
-                    "http://localhost:3500/process?filename=%s&start_page=%d&end_page=%d&recommend=%b&question=%b",
+                    "http://14.46.29.200:3500/process?filename=%s&start_page=%d&end_page=%d&recommend=%b&question=%b",
                     URLEncoder.encode(fileName, StandardCharsets.UTF_8),
                     startPage,
                     endPage,
