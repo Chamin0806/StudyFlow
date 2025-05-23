@@ -10,9 +10,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor //Lombok에서 final로 생성된 필드를 자동으로 생성자에 넣어줌. 생성자 주입으로 받고싶을 때 사용
@@ -28,6 +28,7 @@ public class HomeController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("startPage") int startPage,
                                    @RequestParam("endPage") int endPage,
+                                   @RequestParam(value = "options", required = false) List<String> options,
                                    RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "파일을 선택하지 않았습니다.");
@@ -45,9 +46,17 @@ public class HomeController {
             String filePath = uploadDir + fileName;
             file.transferTo(new File(filePath));
 
-            String pythonServerUrl = "http://localhost:3500/process?filename=" + fileName +
-                    "&start_page=" + startPage +
-                    "&end_page=" + endPage;
+            boolean needRecommendation = options != null && options.contains("recommend");
+            boolean needQuestion = options != null && options.contains("question");
+
+            String pythonServerUrl = String.format(
+                    "http://localhost:3500/process?filename=%s&start_page=%d&end_page=%d&recommend=%b&question=%b",
+                    URLEncoder.encode(fileName, StandardCharsets.UTF_8),
+                    startPage,
+                    endPage,
+                    needRecommendation,
+                    needQuestion
+            );
 
             String taskId = pythonService.requestTaskIdFromPython(pythonServerUrl);
 
@@ -65,11 +74,9 @@ public class HomeController {
         }
     }
 
-
     @GetMapping("/result")
     public String resultPage(@RequestParam("taskId") String taskId, Model model) {
         model.addAttribute("taskId", taskId);  // thymeLeaf에다가 넘겨줌 index.html에서 {taskId} 이런식으로 사용가능함
         return "index";
     }
-
 }
