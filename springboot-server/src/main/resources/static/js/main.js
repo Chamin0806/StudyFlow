@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultBox = document.getElementById("result-box");
 
     const intervalId = setInterval(() => {
-        fetch(`http://14.46.29.200:3500/progress?task_id=${taskId}`)
+        fetch(`http://localhost:3500/progress?task_id=${taskId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.current_page !== undefined && data.total_pages !== undefined) {
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         progressText.innerText = "✅ 분석 완료! 곧 결과 페이지로 이동됩니다.";
 
                         setTimeout(() => {
-                            fetch(`http://14.46.29.200:3500/result?task_id=${taskId}`)
+                            fetch(`http://localhost:3500/result?task_id=${taskId}`)
                                 .then(res => res.json())
                                 .then(json => {
                                     loader.style.display = "none";
@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                     // knowledge 영역
                                     if (json.knowledge) {
                                         const markdownText = json.knowledge.join('\n');
-                                        html += converter.makeHtml(markdownText);
+                                        const knowledgeHTML = converter.makeHtml(markdownText);
+                                        html += `
+                                            <div id="summary-content">${knowledgeHTML}</div>
+                                            <button id="copy-summary" style="margin-top:10px;">📋 요약 복사하기</button>
+                                        `;
                                     }
 
                                     // recommendation 영역
@@ -50,16 +54,28 @@ document.addEventListener("DOMContentLoaded", () => {
                                         Object.entries(json.questions).forEach(([key, qa]) => {
                                             const questionId = `answer-${key}`;
                                             html += `
-                                            <div style='margin-bottom: 1em;'>
-                                                <p><strong>Q${key}. ${qa.문제}</strong></p>
-                                                <button onclick="document.getElementById('${questionId}').style.display = 'inline'; this.style.display = 'none';">정답 보기</button>
-                                                <span id='${questionId}' style='display:none; margin-left: 10px; color: green;'><strong>${qa.정답}</strong></span>
-                                            </div>
-                                        `;
+                                                <div style='margin-bottom: 1em;'>
+                                                    <p><strong>Q${key}. ${qa.문제}</strong></p>
+                                                    <button onclick="document.getElementById('${questionId}').style.display = 'inline'; this.style.display = 'none';">정답 보기</button>
+                                                    <span id='${questionId}' style='display:none; margin-left: 10px; color: green;'><strong>${qa.정답}</strong></span>
+                                                </div>
+                                            `;
                                         });
                                     }
 
                                     resultBox.innerHTML = html;
+
+                                    // 복사 버튼 이벤트 등록
+                                    const copyBtn = document.getElementById("copy-summary");
+                                    if (copyBtn) {
+                                        copyBtn.addEventListener("click", () => {
+                                            const textToCopy = document.getElementById("summary-content").innerText;
+                                            navigator.clipboard.writeText(textToCopy).then(() => {
+                                                copyBtn.innerText = "✅ 복사됨!";
+                                                setTimeout(() => (copyBtn.innerText = "📋 요약 복사하기"), 1500);
+                                            });
+                                        });
+                                    }
                                 })
                                 .catch(err => {
                                     loader.style.display = "none";
@@ -75,15 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("진행 상황 요청 오류:", err);
             });
     }, 2000);
-
-
 });
 
 function scrollToForm() {
     const formElement = document.getElementById("uploadForm");
     if (formElement) {
         const elementTop = formElement.getBoundingClientRect().top;
-        const offset = window.scrollY + elementTop - (window.innerHeight / 2) + (formElement.offsetHeight / 2)-50;
+        const offset = window.scrollY + elementTop - (window.innerHeight / 2) + (formElement.offsetHeight / 2) - 50;
 
         window.scrollTo({
             top: offset,
@@ -129,13 +143,14 @@ function handleSubmit(event) {
 
     xhr.send(finalForm);
 }
+
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxes = document.querySelectorAll('input[type="checkbox"][name="options"]');
     const summaryBox = document.getElementById('selected-options-summary');
     const selectedList = document.getElementById('selected-list');
 
     if (!checkboxes.length || !summaryBox || !selectedList) {
-        return; // 요소가 없으면 아무 것도 하지 않음 (오류 방지용)
+        return;
     }
 
     checkboxes.forEach((checkbox) => {
@@ -155,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-//사용자가 업로드한 pdf 표시
+// 사용자가 업로드한 pdf 파일명 표시
 document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.querySelector('input[type="file"]');
     const fileNameDisplay = document.getElementById("file-name");
