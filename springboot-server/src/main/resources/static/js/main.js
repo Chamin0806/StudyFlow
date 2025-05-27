@@ -44,8 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                     // recommendation 영역
                                     if (json.recommendation) {
-                                        html += "<h3>추천 자료</h3>";
-                                        html += `<p>${json.recommendation}</p>`;
+                                        html += "<h3>추천 자료</h3><ul>";
+                                        if (Array.isArray(json.recommendation)) {
+                                            json.recommendation.forEach(item => {
+                                                html += `<li><a href="${item.링크}" target="_blank">${item.제목}</a></li>`;
+                                            });
+                                        } else {
+                                            html += `<li><a href="${json.recommendation.링크}" target="_blank">${json.recommendation.제목}</a></li>`;
+                                        }
+
+                                        html += "</ul>";
                                     }
 
                                     // questions 영역

@@ -46,7 +46,7 @@ public class HomeController {
             String filePath = uploadDir + fileName;
             file.transferTo(new File(filePath));
 
-            boolean needRecommendation = options != null && options.contains("recommend");
+            boolean needRecommendation = options != null && options.contains("recommendation");
             boolean needQuestion = options != null && options.contains("question");
 
             String pythonServerUrl = String.format(
