@@ -97,11 +97,12 @@ def process_pdf(task_id: str, filename: str, start_page: int, end_page: int, rec
 
             {{
                 "knowledge": [...],
-                "recommendation": {"제목": "링크", ...},
+                "recommendation": {"제목": "실제제목","링크":"실제링크", ...},
                 "questions": {{"1": {{"문제": "...", "정답": "..."}}, ...}}
             }}
             'recommendation'과 'questions'는 사용자가 요청한 경우에만 포함하세요.
-            recommendation에는 관련 도서, 자료 등을 넣고, 링크에는 실제 작동하는 링크를 출력하세요.
+            recommendation에는 관련 도서, 자료 등을 넣고 2개 이상 작성하세요. 그리고 questions는 5개 이상 작성하세요.
+            recommendation과 questions의 출력 형태를 무조건 지키세요.
             JSON 이외의 텍스트는 절대 출력하지 마세요.
         """},
         {"role": "user", "content": json.dumps({
