@@ -74,6 +74,11 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/help")
+    public String helpPage(){
+        return "help";
+    }
+
     @GetMapping("/result")
     public String resultPage(@RequestParam("taskId") String taskId, Model model) {
         model.addAttribute("taskId", taskId);  // thymeLeaf에다가 넘겨줌 index.html에서 {taskId} 이런식으로 사용가능함

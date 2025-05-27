@@ -138,7 +138,7 @@ function handleSubmit(event) {
     finalForm.append("file", file);
     finalForm.append("startPage", startPage);
     finalForm.append("endPage", endPage);
-    if (hasRecommendation) finalForm.append("options", "recommend");
+    if (hasRecommendation) finalForm.append("options", "recommendation");
     if (hasQuestion) finalForm.append("options", "question");
 
     xhr.send(finalForm);
